@@ -298,6 +298,16 @@ class RustGenerator : public BaseGenerator {
 
     assert(!cur_name_space_);
 
+    // Generate global namespace imports.
+    code_ += "  #![allow(dead_code)]";
+    code_ += "  #![allow(unused_imports)]";
+    code_ += "";
+    code_ += "  use std::mem;";
+    code_ += "  use std::cmp::Ordering;";
+    code_ += "";
+    code_ += "  extern crate flatbuffers;";
+    code_ += "  use self::flatbuffers::EndianScalar;";
+
     // Generate all code in their namespaces, once, because Rust does not
     // permit re-opening modules.
     //
