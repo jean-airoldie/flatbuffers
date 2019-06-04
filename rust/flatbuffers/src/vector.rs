@@ -21,7 +21,7 @@ use std::str::from_utf8_unchecked;
 
 #[cfg(target_endian = "little")]
 use endian_scalar::EndianScalar;
-use endian_scalar::read_scalar;
+use endian_scalar::{read_scalar, read_scalar_at};
 use follow::Follow;
 use primitives::*;
 
@@ -61,7 +61,7 @@ impl<'a, T: SafeSliceAccess + 'a> Vector<'a, T> {
         let loc = self.1;
         let sz = size_of::<T>();
         debug_assert!(sz > 0);
-        let len = read_scalar::<UOffsetT>(&buf[loc..loc + SIZE_UOFFSET]) as usize;
+        let len = read_scalar_at::<UOffsetT>(&buf, loc) as usize;
         let data_buf = &buf[loc + SIZE_UOFFSET..loc + SIZE_UOFFSET + len * sz];
         let ptr = data_buf.as_ptr() as *const T;
         let s: &'a [T] = unsafe { from_raw_parts(ptr, len) };
