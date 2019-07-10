@@ -175,6 +175,11 @@ impl<'a, T: Follow<'a> + 'a> Iterator for VectorIter<'a, T> {
 
         ret
     }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let len = self.0.len();
+        (len, Some(len))
+    }
 }
 
 impl<'a, T: Follow<'a> + 'a> IntoIterator for Vector<'a, T> {
